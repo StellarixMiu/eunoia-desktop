@@ -1,0 +1,24 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "interrupt",
+  "description": "Capability for interrupt window",
+  "windows": [
+    "interrupt_*"
+  ],
+  "permissions": [
+    "core:default",
+    "opener:default",
+    "core:event:allow-listen",
+    "core:event:allow-unlisten",
+    "core:window:allow-show",
+    "core:window:allow-close",
+    "core:window:allow-set-focus",
+    "core:window:allow-unminimize",
+    "store:default",
+    {
+      "identifier": "fs:allow-read-dir",
+      "allow": [{ "path": "$APPDATA/**" }]
+    },
+    "log:default"
+  ]
+}

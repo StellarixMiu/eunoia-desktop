@@ -1,0 +1,142 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-manrope: 'Manrope', sans-serif;
+
+  --color-light-50: oklch(0.997 0 0); /* Default */
+  --color-light-100: oklch(0.9521 0 0);
+  --color-light-200: oklch(0.8945 0 0);
+  --color-light-300: oklch(0.7984 0 0);
+  --color-light-400: oklch(0.6797 0 0);
+  --color-light-500: oklch(0.5863 0 0);
+  --color-light-600: oklch(0.5068 0 0);
+  --color-light-700: oklch(0.4386 0 0);
+  --color-light-800: oklch(0.3942 0 0);
+  --color-light-900: oklch(0.36 0 0);
+  --color-light-950: oklch(0.2809 0 0);
+
+  --color-dark-50: oklch(0.9731 0 0);
+  --color-dark-100: oklch(0.928 0 0);
+  --color-dark-200: oklch(0.8607 0 0);
+  --color-dark-300: oklch(0.7572 0 0);
+  --color-dark-400: oklch(0.6268 0 0);
+  --color-dark-500: oklch(0.5348 0 0);
+  --color-dark-600: oklch(0.4784 0 0);
+  --color-dark-700: oklch(0.4276 0 0);
+  --color-dark-800: oklch(0.3904 0 0);
+  --color-dark-900: oklch(0.36 0 0);
+  --color-dark-950: oklch(0.2002 0 0); /* Default */
+
+  --color-soft-blue-50: oklch(0.9791 0.0125 228.92);
+  --color-soft-blue-100: oklch(0.9554 0.025 229.12);
+  --color-soft-blue-200: oklch(0.8971 0.063 223.37);
+  --color-soft-blue-300: oklch(0.8453 0.0991 222.42); /* Default */
+  --color-soft-blue-400: oklch(0.7807 0.1324 224.06);
+  --color-soft-blue-500: oklch(0.7143 0.1383 228.83);
+  --color-soft-blue-600: oklch(0.6155 0.1276 233.71);
+  --color-soft-blue-700: oklch(0.5244 0.11 234.86);
+  --color-soft-blue-800: oklch(0.4636 0.0927 232.65);
+  --color-soft-blue-900: oklch(0.4068 0.0786 233.19);
+  --color-soft-blue-950: oklch(0.3045 0.0581 235.69);
+
+  --color-soft-red-50: oklch(0.9705 0.0129 17.38);
+  --color-soft-red-100: oklch(0.9359 0.0309 15.25);
+  --color-soft-red-200: oklch(0.8848 0.0592 17.04);
+  --color-soft-red-300: oklch(0.8298 0.0893 17.42); /* Default */
+  --color-soft-red-400: oklch(0.7116 0.1634 20.32);
+  --color-soft-red-500: oklch(0.6368 0.2054 24.02);
+  --color-soft-red-600: oklch(0.5765 0.2131 26.12);
+  --color-soft-red-700: oklch(0.5046 0.1885 26.42);
+  --color-soft-red-800: oklch(0.443 0.1592 25.71);
+  --color-soft-red-900: oklch(0.3963 0.1327 24.22);
+  --color-soft-red-950: oklch(0.2578 0.0883 24.42);
+
+  --color-soft-yellow-50: oklch(0.983 0.0195 87.51);
+  --color-soft-yellow-100: oklch(0.9319 0.0741 89.59); /* Default */
+  --color-soft-yellow-200: oklch(0.905 0.1056 89.86);
+  --color-soft-yellow-300: oklch(0.8471 0.1433 83.86);
+  --color-soft-yellow-400: oklch(0.7989 0.1582 75.77);
+  --color-soft-yellow-500: oklch(0.7314 0.1654 61.83);
+  --color-soft-yellow-600: oklch(0.6364 0.1622 51.37);
+  --color-soft-yellow-700: oklch(0.5317 0.1524 42.81);
+  --color-soft-yellow-800: oklch(0.455 0.1286 40.78);
+  --color-soft-yellow-900: oklch(0.3994 0.1089 40.43);
+  --color-soft-yellow-950: oklch(0.269 0.0775 39.6);
+
+  --scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+@layer components {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .scrollbar-minimalist {
+    -ms-overflow-style: auto;
+    scrollbar-width: auto;
+    &::-webkit-scrollbar {
+      width: 1rem;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: var(--color-dark-950);
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--color-soft-blue-300);
+      border-radius: 1rem;
+      border: 5px solid transparent;
+      background-clip: content-box;
+    }
+  }
+
+  .arrow-none {
+    appearance: none;
+    -moz-appearance: textfield !important;
+    &::-webkit-inner-spin-button,
+    -webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  .search-none {
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+      -webkit-appearance: none;
+    }
+  }
+
+  .text-adjust-none {
+    text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+  }
+}
+
+@layer base {
+  a {
+    -webkit-touch-callout: none;
+  }
+
+  input,
+  textarea,
+  select,
+  option {
+    appearance: auto;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px;
+  }
+}

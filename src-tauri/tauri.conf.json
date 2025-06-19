@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "eunoia",
+  "version": "0.1.0",
+  "identifier": "com.eunoia.app",
+  "build": {
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist",
+    "beforeDevCommand": "bun run dev",
+    "beforeBuildCommand": "bun run build",
+    "removeUnusedCommands": true
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "eunoia-main",
+        "focus": true,
+        "width": 500,
+        "height": 500,
+        "shadow": false,
+        "minWidth": 500,
+        "minHeight": 500,
+        "maxWidth": 500,
+        "maxHeight": 500,
+        "resizable": false,
+        "transparent": true,
+        "maximizable": false,
+        "decorations": false,
+        "titleBarStyle": "Transparent"
+      }
+    ],
+    "security": {
+      "csp": {
+        "font-src": [
+          "https://fonts.gstatic.com",
+          "https://fonts.googleapis.com"
+        ]
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}
