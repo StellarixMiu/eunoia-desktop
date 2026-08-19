@@ -27,8 +27,8 @@ function startCountdown() {
       if (running_session.value > 0 && state.value === 'FOCUS')
         running_session.value--
 
-      emits('countdownEnd')
       stopCountdown()
+      emits('countdownEnd')
     }
   }, 1000)
 }
@@ -50,10 +50,17 @@ function toggleCountdown() {
   isRunning.value ? stopCountdown() : startCountdown()
 }
 
+function restartCountdown() {
+  stopCountdown()
+  running_second.value = total_second.value
+  startCountdown()
+}
+
 defineExpose({
   total_second,
   resetCountdown,
   toggleCountdown,
+  restartCountdown,
 })
 </script>
 

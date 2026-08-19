@@ -12,12 +12,13 @@ const emits = defineEmits<{
 }>()
 
 const ripples = ref<Array<{ x: number, y: number, id: number }>>([])
+let ripple_counter = 0
 
 function handleClick(event: MouseEvent) {
   const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
   const x = event.clientX - rect.left
   const y = event.clientY - rect.top
-  const id = Date.now()
+  const id = ripple_counter++
 
   ripples.value.push({ x, y, id })
 

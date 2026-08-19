@@ -4,10 +4,11 @@ import { storeToRefs } from 'pinia'
 import { nextTick, onMounted, useTemplateRef } from 'vue'
 import HoldButton from '~/components/buttons/HoldButton.vue'
 import CountdownTimer from '~/components/CountdownTimer.vue'
-import { useMainStore } from '~/stores'
+import { useCountdownStore, useMainStore } from '~/stores'
 import { logger } from '~/utils'
 
 const mainStore = useMainStore()
+const countdownStore = useCountdownStore()
 
 const {
   focus_session,
@@ -49,7 +50,8 @@ async function restartFocus() {
 }
 
 onMounted(() => nextTick(async () => {
-  CountdownTimerComponent.value?.toggleCountdown()
+  if (countdownStore.running_second > 0)
+    CountdownTimerComponent.value?.toggleCountdown()
 }))
 </script>
 

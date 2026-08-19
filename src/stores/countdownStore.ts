@@ -1,4 +1,5 @@
 import { defineStore, storeToRefs } from 'pinia'
+import { ref } from 'vue'
 import { useStorage } from '~/utils'
 import { useMainStore } from './mainStore'
 
@@ -20,6 +21,7 @@ const useCountdownStore = defineStore('countdown', () => {
     key: 'is_running',
     default: false,
   })
+  const restartToken = ref(0)
 
   function formatTime(value: number) {
     const minutes = Math.floor(value / 60)
@@ -32,6 +34,7 @@ const useCountdownStore = defineStore('countdown', () => {
     total_second,
     running_second,
     isRunning,
+    restartToken,
     formatTime,
   }
 })

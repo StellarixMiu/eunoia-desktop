@@ -2,7 +2,7 @@
 import { invoke } from '@tauri-apps/api/core'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import { storeToRefs } from 'pinia'
-import { onBeforeMount, ref, useTemplateRef, watch } from 'vue'
+import { computed, onBeforeMount, ref, useTemplateRef, watch } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
 import ClickButton from '~/components/buttons/ClickButton.vue'
 import HoldButton from '~/components/buttons/HoldButton.vue'
@@ -24,6 +24,7 @@ const {
 const { total_second, running_second } = storeToRefs(countdownStore)
 
 const isPauseButton = ref<boolean>(false)
+const completedSessions = computed(() => Math.max(0, total_session.value - running_session.value))
 
 const CountdownTimerComponent = useTemplateRef<InstanceType<typeof CountdownTimer>>('countdown-timer-component')
 
@@ -36,9 +37,13 @@ function handleClickButton() {
   if (!CountdownTimerComponent.value)
     return
 
+  if (state.value === 'INACTIVE') {
+    state.value = 'FOCUS'
+    running_session.value = total_session.value
+    CountdownTimerComponent.value.total_second = focus_session.value * 60
+    CountdownTimerComponent.value.resetCountdown()
+  }
   CountdownTimerComponent.value.toggleCountdown()
-  state.value = 'FOCUS'
-  running_session.value = total_session.value
   isPauseButton.value = true
 }
 
@@ -66,6 +71,7 @@ async function handleCountdownEnd() {
     case 'LONG':
       CountdownTimerComponent.value.total_second = focus_session.value * 60
       state.value = 'INACTIVE'
+      isPauseButton.value = false
       break
   }
   CountdownTimerComponent.value.resetCountdown()
@@ -86,8 +92,20 @@ async function handleCountdownEnd() {
 
 watch(state, (value, oldValue) => {
   if (CountdownTimerComponent.value && (oldValue === 'SHORT' && value === 'FOCUS')) {
-    CountdownTimerComponent.value.toggleCountdown()
+    CountdownTimerComponent.value.total_second = focus_session.value * 60
+    CountdownTimerComponent.value.restartCountdown()
   }
+})
+
+watch(() => countdownStore.restartToken, () => {
+  if (!CountdownTimerComponent.value)
+    return
+
+  running_session.value = total_session.value
+  state.value = 'INACTIVE'
+  CountdownTimerComponent.value.total_second = focus_session.value * 60
+  CountdownTimerComponent.value.resetCountdown()
+  isPauseButton.value = false
 })
 
 onBeforeRouteLeave(async () => state.value === 'INACTIVE')
@@ -99,7 +117,7 @@ onBeforeMount(() => {
 
 <template>
   <div class="w-full h-full p-8 flex flex-col">
-    <div class="relative w-full h-full flex flex-col justify-center items-center">
+    <div class="relative w-full flex-1 min-h-0 flex flex-col justify-center items-center">
       <IconState
         :class="[state === 'FOCUS' ? 'fill-soft-red-300' : state === 'SHORT' ? 'fill-soft-blue-300' : state === 'LONG' ? 'fill-soft-yellow-200' : 'fill-light-50']"
         class="size-8"
@@ -126,5 +144,10 @@ onBeforeMount(() => {
         @hold="handleHoldButton"
       />
     </div>
+    <footer class="mt-auto pb-3 text-center">
+      <span class="text-gray-500 text-sm font-medium tracking-wide">
+        Session {{ completedSessions }}/{{ total_session }}
+      </span>
+    </footer>
   </div>
 </template>

@@ -1,3 +1,4 @@
+mod hooks;
 mod setup;
 mod state;
 
@@ -21,12 +22,12 @@ use state::{
 
 #[tauri::command(rename_all = "snake_case")]
 fn create_interrupt_window(state: State<'_, Arc<Mutex<WindowState>>>, app: AppHandle) {
-  let parent = app.get_webview_window("main").unwrap();
   let monitors = app.available_monitors().unwrap();
   let state = Arc::clone(&state);
 
   std::thread::spawn(move || {
     for (i, monitor) in monitors.iter().enumerate() {
+      let scale = monitor.scale_factor();
       let size = monitor.size();
       let position = monitor.position();
       let label = format!("interrupt_{}", i);
@@ -45,17 +46,15 @@ fn create_interrupt_window(state: State<'_, Arc<Mutex<WindowState>>>, app: AppHa
       .shadow(false)
       .visible(true)
       .focused(true)
-      .position(position.x.into(), position.y.into())
+      .position(position.x as f64 / scale, position.y as f64 / scale)
       .resizable(false)
-      .inner_size(size.width.into(), size.height.into())
+      .inner_size(size.width as f64 / scale, size.height as f64 / scale)
       .transparent(true)
       .maximizable(false)
       .decorations(false)
-      .skip_taskbar(!cfg!(debug_assertions))
-      .always_on_top(!cfg!(debug_assertions))
-      .visible_on_all_workspaces(true)
-      .parent(&parent)
-      .unwrap();
+      .skip_taskbar(true)
+      .always_on_top(true)
+      .visible_on_all_workspaces(true);
 
       let window = builder.build().unwrap();
       let state_for_event = Arc::clone(&state);
@@ -68,9 +67,7 @@ fn create_interrupt_window(state: State<'_, Arc<Mutex<WindowState>>>, app: AppHa
           lock.open_interrupts.remove(&label_clone);
         }
         tauri::WindowEvent::Focused(false) => {
-          if cfg!(not(debug_assertions)) {
-            window_clone.set_focus().unwrap();
-          }
+          window_clone.set_focus().unwrap();
         }
         _ => {}
       });
@@ -172,6 +169,12 @@ pub fn run() {
       store.close_resource();
 
       build_tray(app.handle())?;
+
+      #[cfg(windows)]
+      {
+        let window_state = app.state::<Arc<Mutex<WindowState>>>();
+        hooks::install_keyboard_hook(Arc::clone(&window_state));
+      }
 
       Ok(())
     })

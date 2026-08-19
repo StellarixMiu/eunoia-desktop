@@ -1,7 +1,15 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'Manrope';
+  src: url('/Manrope-VariableFont_wght.ttf') format('truetype');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-manrope: 'Manrope', sans-serif;
+  --font-manrope: 'Manrope', ui-sans-serif, system-ui, sans-serif;
 
   --color-light-50: oklch(0.997 0 0); /* Default */
   --color-light-100: oklch(0.9521 0 0);

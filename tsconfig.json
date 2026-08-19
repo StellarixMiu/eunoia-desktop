@@ -14,6 +14,7 @@
     },
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
+    "types": [],
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,

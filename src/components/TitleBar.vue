@@ -3,11 +3,14 @@ import type { Component } from 'vue'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import { markRaw, ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useCountdownStore } from '~/stores'
 import CloseIcon from './icons/CloseIcon.vue'
 import MinimizeIcon from './icons/MinimizeIcon.vue'
+import RefreshIcon from './icons/RefreshIcon.vue'
 import SettingIcon from './icons/SettingIcon.vue'
 
 const appWindow = getCurrentWindow()
+const countdownStore = useCountdownStore()
 
 const isMaximize = ref<boolean>(false)
 const buttons = ref<Array<{
@@ -40,6 +43,18 @@ const buttons = ref<Array<{
     data-tauri-drag-region
     class="w-full h-8 z-50 flex-none flex justify-end items-center select-none bg-dark-950 text-light-50"
   >
+    <li class="w-fit h-full hover:bg-soft-blue-300/25">
+      <button
+        type="button"
+        name="restart"
+        title="restart"
+        :tabindex="-1"
+        class="w-8 h-full place-items-center fill-light-50 focus:outline-none focus:ring-0 not-disabled:active:scale-90"
+        @click="countdownStore.restartToken++"
+      >
+        <RefreshIcon class="size-5" />
+      </button>
+    </li>
     <li class="w-fit h-full mr-auto hover:bg-soft-blue-300/25">
       <RouterLink
         :to="{ name: 'setting' }"

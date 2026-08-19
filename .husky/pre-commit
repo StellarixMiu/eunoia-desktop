@@ -1,0 +1,2 @@
+bun run version:check
+bun run lint-staged

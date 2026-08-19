@@ -1,14 +1,18 @@
 {
   "name": "eunoia",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
+    "prepare": "husky",
     "dev": "vite",
     "build": "bun run lint && vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "lint": "eslint ./src --fix"
+    "lint": "eslint ./src --fix",
+    "version:sync": "bun run scripts/version-sync.ts",
+    "version:check": "bun run scripts/version-sync.ts --check",
+    "version:bump": "bun run scripts/version-bump.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.8",
@@ -27,12 +31,18 @@
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.2",
     "@tauri-apps/cli": "^2.5.0",
+    "@types/node": "^26.2.0",
     "@vitejs/plugin-vue": "^5.2.4",
     "eslint": "^9.27.0",
     "eslint-plugin-format": "^1.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.3.0",
     "typescript": "~5.6.3",
     "vite": "^6.3.5",
     "vite-plugin-vue-devtools": "^7.7.6",
     "vue-tsc": "^2.2.10"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": "eslint --fix"
   }
 }
